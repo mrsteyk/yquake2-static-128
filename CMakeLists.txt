@@ -231,17 +231,6 @@ set(client_SOURCES
 	"src/client/refresh/constants/warpsin.h"
 	"src/client/refresh/files/stb_image.h"
 	"src/client/refresh/files/stb_image_resize.h"
-	"src/client/refresh/gl1/header/local.h"
-	"src/client/refresh/gl1/header/model.h"
-	"src/client/refresh/gl1/header/qgl.h"
-	"src/client/refresh/gl3/glad-gles3/include/KHR/khrplatform.h"
-	"src/client/refresh/gl3/glad-gles3/include/glad/glad.h"
-	"src/client/refresh/gl3/glad/include/KHR/khrplatform.h"
-	"src/client/refresh/gl3/glad/include/glad/glad.h"
-	"src/client/refresh/gl3/header/DG_dynarr.h"
-	"src/client/refresh/gl3/header/HandmadeMath.h"
-	"src/client/refresh/gl3/header/local.h"
-	"src/client/refresh/gl3/header/model.h"
 	"src/client/refresh/ref_shared.h"
 	"src/client/refresh/soft/header/local.h"
 	"src/client/refresh/soft/header/model.h"
@@ -401,6 +390,12 @@ target_link_libraries(yq2-128 PRIVATE
 	refresh-soft
 	SDL2::SDL2main
 )
+
+if(MSVC) # msvc
+	target_link_options(yq2-128 PRIVATE
+		"/SUBSYSTEM:WINDOWS"
+	)
+endif()
 
 get_directory_property(CMKR_VS_STARTUP_PROJECT DIRECTORY ${PROJECT_SOURCE_DIR} DEFINITION VS_STARTUP_PROJECT)
 if(NOT CMKR_VS_STARTUP_PROJECT)
