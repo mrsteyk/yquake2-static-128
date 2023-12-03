@@ -268,11 +268,6 @@ static qboolean checkForHelp(int argc, char **argv)
 				printf("+set r_customheight <size in pixels>\n");
 				printf("  if r_mode is set to -1, these cvars allow you to specify the\n");
 				printf("  width/height of your custom resolution\n");
-				printf("+set vid_renderer <renderer>\n");
-				printf("  Selects the render backend. Currently available:\n");
-				printf("    'gl1'  (the OpenGL 1.x renderer),\n");
-				printf("    'gl3'  (the OpenGL 3.2 renderer),\n");
-				printf("    'soft' (the software renderer)\n");
 #endif // DEDICATED_ONLY
 				printf("\nSee https://github.com/yquake2/yquake2/blob/master/doc/04_cvarlist.md\nfor some more cvars\n");
 

@@ -44,7 +44,6 @@
 #include "refresh/files/stb_image.h"
 
 
-extern cvar_t *vid_renderer;
 
 cvar_t *cin_force43;
 int abort_cinematic;
@@ -605,12 +604,7 @@ SCR_DrawCinematic(void)
 		h = viddef.height;
 	}
 
-	if (!vid_renderer)
-	{
-		vid_renderer = Cvar_Get("vid_renderer", "gl1", CVAR_ARCHIVE);
-	}
-
-	if (Q_stricmp(vid_renderer->string, "soft") == 0)
+	if (true)
 	{
 		color = SCR_MinimalColor();
 

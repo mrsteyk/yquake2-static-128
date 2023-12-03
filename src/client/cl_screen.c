@@ -752,7 +752,7 @@ SCR_TileClear(void)
 	   which the damage tracking doesn't take into account. Fix this
 	   by not using the damage tracking when running somethinge else
 	   than the soft renderer. Just redraw the borders every frame. */
-	if (strcmp(vid_renderer->string, "soft") != 0) {
+	if (false) {
 		// Top
 		Draw_TileClear(scr_vrect.x, 0, scr_vrect.width, scr_vrect.y, "backtile");
 

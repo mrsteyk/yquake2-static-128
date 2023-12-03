@@ -74,7 +74,7 @@ static menuaction_s s_apply_action;
 // --------
 
 // gl1, gl3, gles3, vk, soft
-#define MAXRENDERERS 5
+#define MAXRENDERERS 1
 
 typedef struct
 {
@@ -90,35 +90,7 @@ Renderer_FillRenderdef(void)
 {
 	numrenderer = -1;
 
-	if (VID_HasRenderer("gl1"))
-	{
-		numrenderer++;
-		rendererlist[numrenderer].boxstr = "[OpenGL 1.4]";
-		rendererlist[numrenderer].cvarstr = "gl1";
-	}
-
-	if (VID_HasRenderer("gl3"))
-	{
-		numrenderer++;
-		rendererlist[numrenderer].boxstr = "[OpenGL 3.2]";
-		rendererlist[numrenderer].cvarstr = "gl3";
-	}
-
-	if (VID_HasRenderer("gles3"))
-	{
-		numrenderer++;
-		rendererlist[numrenderer].boxstr = "[OpenGL ES3]";
-		rendererlist[numrenderer].cvarstr = "gles3";
-	}
-
-	if (VID_HasRenderer("vk"))
-	{
-		numrenderer++;
-		rendererlist[numrenderer].boxstr = "[Vulkan    ]";
-		rendererlist[numrenderer].cvarstr = "vk";
-	}
-
-	if (VID_HasRenderer("soft"))
+	if (true)
 	{
 		numrenderer++;
 		rendererlist[numrenderer].boxstr = "[Software  ]";
@@ -134,16 +106,8 @@ Renderer_FillRenderdef(void)
 static int
 Renderer_GetRenderer(void)
 {
-	for (int i = 0; i < numrenderer; i++)
-	{
-		if (strcmp(vid_renderer->string, rendererlist[i].cvarstr) == 0)
-		{
-			return i;
-		}
-	}
-
-	// Unknown renderer.
-	return numrenderer;
+	// Soft renderer.
+	return 0;
 }
 
 // --------
@@ -431,11 +395,6 @@ VID_MenuInit(void)
 		crosshair_scale = Cvar_Get("crosshair_scale", "-1", CVAR_ARCHIVE);
 	}
 
-	if (!vid_renderer)
-	{
-		vid_renderer = Cvar_Get("vid_renderer", "gl1", CVAR_ARCHIVE);
-	}
-
 	if (!r_vsync)
 	{
 		r_vsync = Cvar_Get("r_vsync", "1", CVAR_ARCHIVE);
@@ -454,17 +413,17 @@ VID_MenuInit(void)
 	s_opengl_menu.x = viddef.width * 0.50;
 	s_opengl_menu.nitems = 0;
 
-	s_renderer_list.generic.type = MTYPE_SPINCONTROL;
-	s_renderer_list.generic.name = "renderer";
-	s_renderer_list.generic.x = 0;
-	s_renderer_list.generic.y = y;
-	s_renderer_list.itemnames = renderers;
-	s_renderer_list.curvalue = Renderer_GetRenderer();
+	// s_renderer_list.generic.type = MTYPE_SPINCONTROL;
+	// s_renderer_list.generic.name = "renderer";
+	// s_renderer_list.generic.x = 0;
+	// s_renderer_list.generic.y = y;
+	// s_renderer_list.itemnames = renderers;
+	// s_renderer_list.curvalue = Renderer_GetRenderer();
 
 	s_mode_list.generic.type = MTYPE_SPINCONTROL;
 	s_mode_list.generic.name = "video mode";
 	s_mode_list.generic.x = 0;
-	s_mode_list.generic.y = (y += 10);
+	s_mode_list.generic.y = y;
 	s_mode_list.itemnames = resolutions;
 
 	if (r_mode->value >= 0)
@@ -510,62 +469,62 @@ VID_MenuInit(void)
 	s_fov_slider.slidestep = 1;
 	s_fov_slider.printformat = "%.0f";
 
-	if (strcmp(vid_renderer->string, "gl3") == 0 || strcmp(vid_renderer->string, "gles3") == 0)
-	{
-		gl1_colorlight = NULL;
-		s_gl3_intensity_slider.generic.type = MTYPE_SLIDER;
-		s_gl3_intensity_slider.generic.name = "color intensity";
-		s_gl3_intensity_slider.generic.x = 0;
-		s_gl3_intensity_slider.generic.y = (y += 10);
-		s_gl3_intensity_slider.cvar = "gl3_intensity";
-		s_gl3_intensity_slider.minvalue = 0.1f;
-		s_gl3_intensity_slider.maxvalue = 5.0f;
+	// if (strcmp(vid_renderer->string, "gl3") == 0 || strcmp(vid_renderer->string, "gles3") == 0)
+	// {
+	// 	gl1_colorlight = NULL;
+	// 	s_gl3_intensity_slider.generic.type = MTYPE_SLIDER;
+	// 	s_gl3_intensity_slider.generic.name = "color intensity";
+	// 	s_gl3_intensity_slider.generic.x = 0;
+	// 	s_gl3_intensity_slider.generic.y = (y += 10);
+	// 	s_gl3_intensity_slider.cvar = "gl3_intensity";
+	// 	s_gl3_intensity_slider.minvalue = 0.1f;
+	// 	s_gl3_intensity_slider.maxvalue = 5.0f;
 
-		s_gl3_overbrightbits_slider.generic.type = MTYPE_SLIDER;
-		s_gl3_overbrightbits_slider.generic.name = "overbrights";
-		s_gl3_overbrightbits_slider.generic.x = 0;
-		s_gl3_overbrightbits_slider.generic.y = (y += 10);
-		s_gl3_overbrightbits_slider.cvar = "gl3_overbrightbits";
-		s_gl3_overbrightbits_slider.minvalue = 0.1f;
-		s_gl3_overbrightbits_slider.maxvalue = 5.0f;
+	// 	s_gl3_overbrightbits_slider.generic.type = MTYPE_SLIDER;
+	// 	s_gl3_overbrightbits_slider.generic.name = "overbrights";
+	// 	s_gl3_overbrightbits_slider.generic.x = 0;
+	// 	s_gl3_overbrightbits_slider.generic.y = (y += 10);
+	// 	s_gl3_overbrightbits_slider.cvar = "gl3_overbrightbits";
+	// 	s_gl3_overbrightbits_slider.minvalue = 0.1f;
+	// 	s_gl3_overbrightbits_slider.maxvalue = 5.0f;
 
-		gl3_colorlight = Cvar_Get("gl3_colorlight", "1", CVAR_ARCHIVE);
-		s_gl3_colorlight_list.generic.type = MTYPE_SPINCONTROL;
-		s_gl3_colorlight_list.generic.name = "color light";
-		s_gl3_colorlight_list.generic.x = 0;
-		s_gl3_colorlight_list.generic.y = (y += 10);
-		s_gl3_colorlight_list.itemnames = yesno_names;
-		s_gl3_colorlight_list.curvalue = (gl3_colorlight->value != 0);
-	}
-	else if (strcmp(vid_renderer->string, "vk") == 0)
-	{
-		s_vk_intensity_slider.generic.type = MTYPE_SLIDER;
-		s_vk_intensity_slider.generic.name = "color intensity";
-		s_vk_intensity_slider.generic.x = 0;
-		s_vk_intensity_slider.generic.y = (y += 10);
-		s_vk_intensity_slider.cvar = "vk_intensity";
-		s_vk_intensity_slider.minvalue = 0;
-		s_vk_intensity_slider.maxvalue = 5;
-		s_vk_intensity_slider.slidestep = 1;
-		s_vk_intensity_slider.printformat = "%.0f";
+	// 	gl3_colorlight = Cvar_Get("gl3_colorlight", "1", CVAR_ARCHIVE);
+	// 	s_gl3_colorlight_list.generic.type = MTYPE_SPINCONTROL;
+	// 	s_gl3_colorlight_list.generic.name = "color light";
+	// 	s_gl3_colorlight_list.generic.x = 0;
+	// 	s_gl3_colorlight_list.generic.y = (y += 10);
+	// 	s_gl3_colorlight_list.itemnames = yesno_names;
+	// 	s_gl3_colorlight_list.curvalue = (gl3_colorlight->value != 0);
+	// }
+	// else if (strcmp(vid_renderer->string, "vk") == 0)
+	// {
+	// 	s_vk_intensity_slider.generic.type = MTYPE_SLIDER;
+	// 	s_vk_intensity_slider.generic.name = "color intensity";
+	// 	s_vk_intensity_slider.generic.x = 0;
+	// 	s_vk_intensity_slider.generic.y = (y += 10);
+	// 	s_vk_intensity_slider.cvar = "vk_intensity";
+	// 	s_vk_intensity_slider.minvalue = 0;
+	// 	s_vk_intensity_slider.maxvalue = 5;
+	// 	s_vk_intensity_slider.slidestep = 1;
+	// 	s_vk_intensity_slider.printformat = "%.0f";
 
-		s_vk_overbrightbits_slider.generic.type = MTYPE_SLIDER;
-		s_vk_overbrightbits_slider.generic.name = "overbrights";
-		s_vk_overbrightbits_slider.generic.x = 0;
-		s_vk_overbrightbits_slider.generic.y = (y += 10);
-		s_vk_overbrightbits_slider.cvar = "vk_overbrightbits";
-		s_vk_overbrightbits_slider.minvalue = 0.1f;
-		s_vk_overbrightbits_slider.maxvalue = 5.0f;
+	// 	s_vk_overbrightbits_slider.generic.type = MTYPE_SLIDER;
+	// 	s_vk_overbrightbits_slider.generic.name = "overbrights";
+	// 	s_vk_overbrightbits_slider.generic.x = 0;
+	// 	s_vk_overbrightbits_slider.generic.y = (y += 10);
+	// 	s_vk_overbrightbits_slider.cvar = "vk_overbrightbits";
+	// 	s_vk_overbrightbits_slider.minvalue = 0.1f;
+	// 	s_vk_overbrightbits_slider.maxvalue = 5.0f;
 
-		vk_dynamic = Cvar_Get("vk_dynamic", "1", CVAR_ARCHIVE);
-		s_vk_dynamic_list.generic.type = MTYPE_SPINCONTROL;
-		s_vk_dynamic_list.generic.name = "dynamic light";
-		s_vk_dynamic_list.generic.x = 0;
-		s_vk_dynamic_list.generic.y = (y += 10);
-		s_vk_dynamic_list.itemnames = yesno_names;
-		s_vk_dynamic_list.curvalue = (vk_dynamic->value != 0);
-	}
-	else
+	// 	vk_dynamic = Cvar_Get("vk_dynamic", "1", CVAR_ARCHIVE);
+	// 	s_vk_dynamic_list.generic.type = MTYPE_SPINCONTROL;
+	// 	s_vk_dynamic_list.generic.name = "dynamic light";
+	// 	s_vk_dynamic_list.generic.x = 0;
+	// 	s_vk_dynamic_list.generic.y = (y += 10);
+	// 	s_vk_dynamic_list.itemnames = yesno_names;
+	// 	s_vk_dynamic_list.curvalue = (vk_dynamic->value != 0);
+	// }
+	// else
 	{
 		gl3_colorlight = NULL;
 		s_gl1_intensity_slider.generic.type = MTYPE_SLIDER;
@@ -679,7 +638,7 @@ VID_MenuInit(void)
 	s_apply_action.generic.y = (y += 10);
 	s_apply_action.generic.callback = ApplyChanges;
 
-	Menu_AddItem(&s_opengl_menu, (void *)&s_renderer_list);
+	// Menu_AddItem(&s_opengl_menu, (void *)&s_renderer_list);
 	Menu_AddItem(&s_opengl_menu, (void *)&s_mode_list);
 
 	// only show this option if we have multiple displays
@@ -690,24 +649,6 @@ VID_MenuInit(void)
 
 	Menu_AddItem(&s_opengl_menu, (void *)&s_brightness_slider);
 	Menu_AddItem(&s_opengl_menu, (void *)&s_fov_slider);
-	if (strcmp(vid_renderer->string, "gl3") == 0 || strcmp(vid_renderer->string, "gles3") == 0)
-	{
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl3_intensity_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl3_overbrightbits_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl3_colorlight_list);
-	}
-	else if (strcmp(vid_renderer->string, "vk") == 0)
-	{
-		Menu_AddItem(&s_opengl_menu, (void *)&s_vk_intensity_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_vk_overbrightbits_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_vk_dynamic_list);
-	}
-	else if (strcmp(vid_renderer->string, "gl1") == 0)
-	{
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl1_intensity_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl1_overbrightbits_slider);
-		Menu_AddItem(&s_opengl_menu, (void *)&s_gl1_colorlight_list);
-	}
 	Menu_AddItem(&s_opengl_menu, (void *)&s_uiscale_list);
 	Menu_AddItem(&s_opengl_menu, (void *)&s_fs_box);
 	Menu_AddItem(&s_opengl_menu, (void *)&s_vsync_list);

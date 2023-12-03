@@ -286,7 +286,6 @@ VID_GetModeInfo(int *width, int *height, int mode)
 // Global console variables.
 cvar_t *vid_gamma;
 cvar_t *vid_fullscreen;
-cvar_t *vid_renderer;
 
 // Global video state, used throughout the client.
 viddef_t viddef;
@@ -573,7 +572,6 @@ VID_Init(void)
 	// Console variables
 	vid_gamma = Cvar_Get("vid_gamma", "1.0", CVAR_ARCHIVE);
 	vid_fullscreen = Cvar_Get("vid_fullscreen", "0", CVAR_ARCHIVE);
-	vid_renderer = Cvar_Get("vid_renderer", "gl1", CVAR_ARCHIVE);
 
 	// Commands
 	Cmd_AddCommand("vid_restart", VID_Restart_f);
