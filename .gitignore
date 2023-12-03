@@ -1,0 +1,11 @@
+/build/
+/release/
+*.mk
+*.user
+*.d
+
+# cmkr
+build*/
+cmake-build*/
+CMakerLists.txt
+CMakeLists.txt.user
