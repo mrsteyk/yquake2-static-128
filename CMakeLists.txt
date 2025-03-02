@@ -32,6 +32,7 @@ project(yquake2-128
 # Operating system.
 set(YQ2OSTYPE "${CMAKE_SYSTEM_NAME}" CACHE STRING "Override operation system type")
 add_definitions(-DYQ2OSTYPE="${YQ2OSTYPE}")
+add_definitions(-DNOUNCRYPT)
 
 if(CMKR_ROOT_PROJECT AND NOT CMKR_DISABLE_VCPKG)
 	include(FetchContent)
